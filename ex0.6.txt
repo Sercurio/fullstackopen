@@ -1,0 +1,21 @@
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: Javascript code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+
+browser->browser: click on submit button
+note over browser
+call the event handler linked to the form
+prevent from sending POST request to the server
+push the new note to the existing notes array
+clean the input box
+redraw all the notes
+call the sendToServer function
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over server:
+the note is saved on the server
+end note
