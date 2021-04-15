@@ -2,17 +2,22 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Country = ({ country }) => {
-  const api_key = process.env.REACT_APP_API_KEY;
+  // const api_key = process.env.REACT_APP_API_KEY;
+  const api_key = process.env.REACT_APP_WEATHER_API_KEY;
   const [weatherState, setWeatherState] = useState(null);
 
   useEffect(() => {
+    let unmounted = false;
     axios
       .get(
         `http://api.weatherstack.com/current?access_key=${api_key}&query=${country.capital}`
       )
       .then((response) => {
-        setWeatherState(response.data);
+        if (unmounted === false) setWeatherState(response.data);
       });
+    return () => {
+      unmounted = true;
+    };
   }, [api_key, country.capital]);
 
   return (

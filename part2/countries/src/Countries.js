@@ -10,6 +10,8 @@ const Countries = ({ countries, setCountriesToShow }) => {
       return <div>Too many matches, specify another filter</div>;
     } else if (countries.length === 1) {
       return <Country country={countries[0]} />;
+    } else if (countries.length === 0) {
+      return <div></div>;
     } else {
       return (
         <div>
