@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Country = ({ country }) => {
-  // const api_key = process.env.REACT_APP_API_KEY;
   const api_key = process.env.REACT_APP_WEATHER_API_KEY;
   const [weatherState, setWeatherState] = useState(null);
 
