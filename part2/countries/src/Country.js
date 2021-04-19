@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Country = ({ country }) => {
-  const api_key = process.env.REACT_APP_WEATHER_API_KEY;
-  const [weatherState, setWeatherState] = useState(null);
+  const api_key = process.env.REACT_APP_API_KEY_WEATHER;
+  const [weatherState, setWeatherState] = useState("");
 
   useEffect(() => {
     let unmounted = false;
@@ -32,7 +32,7 @@ const Country = ({ country }) => {
       </ul>
       <img src={country.flag} alt="flag" width="80px"></img>
       <h2>Weather in {country.capital}</h2>
-      {weatherState === null ? (
+      {weatherState === "" ? (
         <p>loading</p>
       ) : (
         <div>
