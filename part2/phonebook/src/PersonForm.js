@@ -1,31 +1,35 @@
-import axios from "axios";
 import { useState } from "react";
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, serviceHandler }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
   const addPerson = (e) => {
     e.preventDefault();
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    };
     if (
       persons.some(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
       )
     ) {
-      window.alert(`${newName} already exist in the phonebook`);
+      if (
+        window.confirm(
+          `${newName} already exist in the phonebook. Replace the old number with a new one?`
+        )
+      ) {
+        const person = persons.find(
+          (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+        serviceHandler.onUpdatedPersonHandler(person.id, personObject);
+      }
     } else {
-      const personObject = {
-        name: newName,
-        number: newNumber,
-      };
-      axios
-        .post("http://localhost:3001/persons", personObject)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-          setNewName("");
-          setNewNumber("");
-        });
+      serviceHandler.onAddedPersonHandler(personObject);
     }
+    setNewName("");
+    setNewNumber("");
   };
 
   const handleNewNameChange = (e) => {

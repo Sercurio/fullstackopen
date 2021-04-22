@@ -1,10 +1,15 @@
 import Person from "./Person";
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, serviceHandler }) => {
   return (
     <ul>
       {persons.map((person) => (
-        <Person key={person.name} person={person} />
+        <div key={person.name}>
+          <Person person={person} />
+          <button onClick={() => serviceHandler.onDeletedPersonHandler(person)}>
+            Delete
+          </button>
+        </div>
       ))}
     </ul>
   );

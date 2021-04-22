@@ -1,5 +1,5 @@
 const Person = ({ person }) => (
-  <li key={person.name}>
+  <li>
     {person.name} {person.number}
   </li>
 );
