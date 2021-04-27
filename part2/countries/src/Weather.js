@@ -8,5 +8,5 @@ const Weather = () => {
         {weatherState.current.wind_dir}
       </p>
     </div>
-  );
-};
+  )
+}

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import PersonForm from "./PersonForm";
-import Persons from "./Persons";
-import Filter from "./Filter";
-import Notification from "./Notification";
-import personService from "./services/persons";
+import React, { useState, useEffect } from 'react'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
+import Filter from './Filter'
+import Notification from './Notification'
+import personService from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
-  const [personsToShow, setPersonsToShow] = useState([]);
-  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [persons, setPersons] = useState([])
+  const [personsToShow, setPersonsToShow] = useState([])
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
-      setPersons(initialPersons);
-      setPersonsToShow(initialPersons);
-    });
-  }, []);
+      setPersons(initialPersons)
+      setPersonsToShow(initialPersons)
+    })
+  }, [])
 
   const serviceHandler = {
     onDeletedPersonHandler: (person) => {
@@ -23,29 +23,29 @@ const App = () => {
         personService
           .deletePerson(person.id)
           .then((data) => {
-            setPersons(persons.filter((p) => p.id !== person.id));
-            setNotificationMessage(`SUCCESS ${person.name} deleted !`);
+            setPersons(persons.filter((p) => p.id !== person.id))
+            setNotificationMessage(`SUCCESS ${person.name} deleted !`)
             setTimeout(() => {
-              setNotificationMessage(null);
-            }, 5000);
+              setNotificationMessage(null)
+            }, 5000)
           })
           .catch((error) => {
-            console.log(error);
-          });
+            console.log(error)
+          })
     },
     onAddedPersonHandler: (person) => {
       personService
         .create(person)
         .then((data) => {
-          setPersons(persons.concat(data));
-          setNotificationMessage(`SUCCESS ${person.name} added !`);
+          setPersons(persons.concat(data))
+          setNotificationMessage(`SUCCESS ${person.name} added !`)
           setTimeout(() => {
-            setNotificationMessage(null);
-          }, 5000);
+            setNotificationMessage(null)
+          }, 5000)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     onUpdatedPersonHandler: (id, person) => {
       personService
@@ -56,31 +56,31 @@ const App = () => {
               const updatedPerson = {
                 ...p,
                 number: person.number,
-              };
-              return updatedPerson;
+              }
+              return updatedPerson
             }
-            return p;
-          });
-          setPersons(newPersons);
-          setNotificationMessage(`SUCCESS ${person.name} updated !`);
+            return p
+          })
+          setPersons(newPersons)
+          setNotificationMessage(`SUCCESS ${person.name} updated !`)
           setTimeout(() => {
-            setNotificationMessage(null);
-          }, 5000);
+            setNotificationMessage(null)
+          }, 5000)
         })
         .catch((error) => {
           setNotificationMessage(
-            `ERROR when updating ${person.name}, the person was removed from the server`
-          );
+            `ERROR when updating ${person.name}, the person was removed from the server`,
+          )
           setTimeout(() => {
-            setNotificationMessage(null);
-          }, 5000);
+            setNotificationMessage(null)
+          }, 5000)
           personService.getAll().then((initialPersons) => {
-            setPersons(initialPersons);
-            setPersonsToShow(initialPersons);
-          });
-        });
+            setPersons(initialPersons)
+            setPersonsToShow(initialPersons)
+          })
+        })
     },
-  };
+  }
 
   return (
     <div>
@@ -100,7 +100,7 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons persons={personsToShow} serviceHandler={serviceHandler} />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

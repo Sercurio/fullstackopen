@@ -1,28 +1,28 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
 const Filter = ({ persons, setPersonsToShow }) => {
   useEffect(() => {
-    setPersonsToShow(persons);
-  }, [persons, setPersonsToShow]);
+    setPersonsToShow(persons)
+  }, [persons, setPersonsToShow])
 
   const handleFilterOnNameChange = (e) => {
-    const newFilter = e.target.value;
+    const newFilter = e.target.value
     setPersonsToShow(
-      newFilter === ""
+      newFilter === ''
         ? persons
         : persons.filter(
             (person) =>
               person.name.toLowerCase().startsWith(newFilter.toLowerCase()) ===
-              true
-          )
-    );
-  };
+              true,
+          ),
+    )
+  }
 
   return (
     <div>
       filter shown with: <input onChange={handleFilterOnNameChange} />
     </div>
-  );
-};
+  )
+}
 
-export default Filter;
+export default Filter

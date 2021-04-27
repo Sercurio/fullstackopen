@@ -1,17 +1,17 @@
-import Country from "./Country";
+import Country from './Country'
 
 const Countries = ({ countries, setCountriesToShow }) => {
   const handleOnShowEvent = (country) => {
-    setCountriesToShow([country]);
-  };
+    setCountriesToShow([country])
+  }
 
   const displayCountries = () => {
     if (countries.length > 10) {
-      return <div>Too many matches, specify another filter</div>;
+      return <div>Too many matches, specify another filter</div>
     } else if (countries.length === 1) {
-      return <Country country={countries[0]} />;
+      return <Country country={countries[0]} />
     } else if (countries.length === 0) {
-      return <div></div>;
+      return <div></div>
     } else {
       return (
         <div>
@@ -26,14 +26,14 @@ const Countries = ({ countries, setCountriesToShow }) => {
                   Show
                 </button>
               </li>
-            );
+            )
           })}
         </div>
-      );
+      )
     }
-  };
+  }
 
-  return displayCountries();
-};
+  return displayCountries()
+}
 
-export default Countries;
+export default Countries

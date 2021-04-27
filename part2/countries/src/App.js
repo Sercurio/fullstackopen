@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Countries from "./Countries";
-import Filter from "./Filter";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Countries from './Countries'
+import Filter from './Filter'
 
 const App = () => {
-  const [countries, setCountries] = useState([]);
-  const [countriesToShow, setCountriesToShow] = useState([]);
+  const [countries, setCountries] = useState([])
+  const [countriesToShow, setCountriesToShow] = useState([])
 
   useEffect(() => {
-    axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
-      setCountries(response.data);
-      setCountriesToShow(response.data);
-    });
-  }, []);
+    axios.get('https://restcountries.eu/rest/v2/all').then((response) => {
+      setCountries(response.data)
+      setCountriesToShow(response.data)
+    })
+  }, [])
 
   return (
     <div>
@@ -22,7 +22,7 @@ const App = () => {
         setCountriesToShow={setCountriesToShow}
       />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
