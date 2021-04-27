@@ -1,9 +1,7 @@
-const http = require('http')
 const express = require('express')
-const { json } = require('express')
 
 const app = express()
-app.use(express.json)
+app.use(express.json())
 
 let persons = [
   {
@@ -28,56 +26,51 @@ let persons = [
   },
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
+app.get('/api/persons', (request, response) => {
+  response.json(persons)
 })
 
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
-})
-
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
-  const note = notes.find((note) => note.id === id)
-  if (note) {
-    response.json(note)
-  } else {
-    response.status(404).end()
-  }
+  const person = persons.find((person) => person.id === id)
+
+  if (person) response.json(person)
+  else response.status(404).end()
 })
 
-app.delete('/api/notes/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
-  notes = notes.filter((note) => note.id !== id)
+  persons = persons.filter((person) => person.id !== id)
 
   response.status(204).end()
 })
 
-const generateId = () => {
-  const maxId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) : 0
-  return maxId + 1
-}
-
-app.post('/api/notes', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body
-
-  if (!body.content) {
+  if (!body.name || !body.number)
     return response.status(400).json({
-      error: 'content missing',
+      error: 'name or number missing.',
     })
-  }
+  else if (persons.find((person) => person.name === body.name))
+    return response.status(400).json({
+      error: 'name must be unique.',
+    })
 
-  const note = {
-    content: body.content,
-    important: body.important || false,
-    date: new Date(),
-    id: generateId(),
-  }
+  const id = getRandomNumber(5, 999)
+  const person = { ...body, id: id }
 
-  notes = notes.concat(note)
-
-  response.json(note)
+  persons = persons.concat(person)
+  response.json(person)
 })
+
+app.get('/info', (request, response) => {
+  response.send(`<p>Phonebook has info for ${persons.length} people</p>
+  <p>${new Date()}</p>`)
+})
+
+const getRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
 const PORT = 3001
 app.listen(PORT, () => {
