@@ -19,13 +19,11 @@ app.use(
 
 app.get('/info', (request, response) => {
   Person.find({}).then((persons) => {
-    response
-      .send(
-        `<p>Phonebook has info for ${
-          persons.length
-        } people</p><p>${new Date()}</p>`,
-      )
-      .catch((error) => next(error))
+    response.send(
+      `<p>Phonebook has info for ${
+        persons.length
+      } people</p><p>${new Date()}</p>`,
+    )
   })
 })
 
