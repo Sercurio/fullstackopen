@@ -44,7 +44,12 @@ const App = () => {
           }, 5000)
         })
         .catch((error) => {
-          console.log(error)
+          setNotificationMessage(
+            `ERROR when adding ${person.name}, ${error.response.data.error}`,
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
         })
     },
     onUpdatedPersonHandler: (id, person) => {
@@ -69,7 +74,7 @@ const App = () => {
         })
         .catch((error) => {
           setNotificationMessage(
-            `ERROR when updating ${person.name}, the person was removed from the server`,
+            `ERROR when updating ${person.name}, ${error.response.data.error}`,
           )
           setTimeout(() => {
             setNotificationMessage(null)

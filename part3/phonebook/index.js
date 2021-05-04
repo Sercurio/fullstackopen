@@ -9,7 +9,7 @@ app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 
-morgan.token('body', (req, res) => {
+morgan.token('body', (req) => {
   return JSON.stringify(req.body)
 })
 
@@ -54,8 +54,11 @@ app.put('/api/persons/:id', (request, response, next) => {
     number: request.body.number,
   }
 
-  Person.findByIdAndUpdate(request.params.id, newPerson, { new: true })
-    .then((updatedPerson) => {
+  Person.findOneAndUpdate({ _id: request.params.id }, newPerson, {
+    new: true,
+    runValidators: true,
+  })
+    .then(() => {
       response.status(204).end()
     })
     .catch((error) => next(error))
@@ -63,11 +66,6 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'name or number missing.',
-    })
-  }
 
   const person = new Person({
     name: body.name,
@@ -77,7 +75,6 @@ app.post('/api/persons', (request, response, next) => {
   person
     .save()
     .then((savedPerson) => {
-      persons = persons.concat(savedPerson)
       response.json(savedPerson)
     })
     .catch((error) => next(error))
@@ -93,6 +90,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
