@@ -1,10 +1,4 @@
-import { useEffect } from 'react'
-
 const Filter = ({ persons, setPersonsToShow }) => {
-  useEffect(() => {
-    setPersonsToShow(persons)
-  }, [persons, setPersonsToShow])
-
   const handleFilterOnNameChange = (e) => {
     const newFilter = e.target.value
     setPersonsToShow(

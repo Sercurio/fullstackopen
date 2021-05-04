@@ -10,6 +10,7 @@ const PersonForm = ({ persons, setPersons, serviceHandler }) => {
       name: newName,
       number: newNumber,
     }
+
     if (
       persons.some(
         (person) => person.name.toLowerCase() === newName.toLowerCase(),
