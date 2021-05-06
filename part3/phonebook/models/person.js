@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-// Apply the uniqueValidator plugin to userSchema.
-
 const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
