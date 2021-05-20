@@ -1,12 +1,10 @@
-const addBlogForm = ({
-  title,
-  setTitle,
-  author,
-  setAuthor,
-  url,
-  setUrl,
-  handleAddBlog,
-}) => {
+import { useState } from 'react'
+
+const AddBlogForm = ({ handleAddBlog }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
   const handleTitleChange = (e) => {
     const titleValue = e.target.value
     setTitle(titleValue)
@@ -20,8 +18,18 @@ const addBlogForm = ({
     setUrl(urlValue)
   }
 
+  const addBlog = (e) => {
+    e.preventDefault()
+    const blogObject = {
+      title: title,
+      author: author,
+      url: url,
+    }
+    handleAddBlog(blogObject)
+  }
+
   return (
-    <form onSubmit={handleAddBlog}>
+    <form onSubmit={addBlog}>
       <label>title</label>
       <input key="title" value={title} onChange={handleTitleChange} />
       <br />
@@ -36,4 +44,4 @@ const addBlogForm = ({
   )
 }
 
-export default addBlogForm
+export default AddBlogForm

@@ -68,8 +68,6 @@ blogRouter.delete('/:id', token.userExtractor, async (request, response) => {
 blogRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  console.log(body)
-
   const blog = {
     likes: body.likes,
   }

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const decode = require('jsonwebtoken/decode')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const logger = require('../utils/logger')
 
 router.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -35,10 +36,20 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const blog = request.body
-
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
-    new: true,
-  })
+  const newBlog = {
+    id: blog.id,
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes + 1,
+  }
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    newBlog.id.toString(),
+    newBlog,
+    {
+      new: true,
+    },
+  )
   response.json(updatedBlog.toJSON())
 })
 

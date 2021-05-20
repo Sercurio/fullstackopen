@@ -7,14 +7,35 @@ const getAll = async () => {
   return response.data
 }
 
-const addBlog = (user, blogObject) => {
+const addBlog = async (user, blogObject) => {
   const request = axios.post(baseUrl, blogObject, {
     headers: {
       Authorization: `bearer ${user.token}`,
     },
   })
-  return request.then((response) => response.data)
+  const response = await request
+  return response.data
 }
 
-const blogService = { getAll, addBlog }
+const addLike = async (user, blogObject) => {
+  const request = axios.put(
+    `${baseUrl}/${blogObject.id.toString()}`,
+    blogObject,
+  )
+  const response = await request
+  return response.data
+}
+
+const deleteBlog = async (user, blogObject) => {
+  const request = axios.delete(`${baseUrl}/${blogObject.id.toString()}`, {
+    data: blogObject,
+    headers: {
+      Authorization: `bearer ${user.token}`,
+    },
+  })
+  const response = await request
+  return response.data
+}
+
+const blogService = { getAll, addBlog, addLike, deleteBlog }
 export default blogService

@@ -5,7 +5,7 @@ const login = async (username, password) => {
   const data = { username: username, password: password }
   try {
     const response = await axios.post(baseUrl, data)
-    return { token: response.data.token }
+    return response.data
   } catch (error) {
     return { error: error }
   }
