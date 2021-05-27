@@ -69,7 +69,7 @@ const App = () => {
         setNotificationMessage('SUCCESS blog added')
         setTimeout(() => setNotificationMessage(null), 2000)
       })
-      .catch((error) => {
+      .catch(() => {
         setNotificationMessage('ERROR when adding blog')
         setTimeout(() => setNotificationMessage(null), 2000)
       })
@@ -102,7 +102,7 @@ const App = () => {
   const handleRemoveBlog = (blog) => {
     blogService
       .deleteBlog(user, blog)
-      .then((response) => {
+      .then(() => {
         setBlogs(blogs.filter((b) => b.id !== blog.id))
       })
       .catch((error) => {
