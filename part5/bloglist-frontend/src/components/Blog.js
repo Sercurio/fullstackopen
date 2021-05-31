@@ -30,8 +30,13 @@ const Blog = ({ user, blog, handleAddLike, handleRemoveBlog }) => {
   }
 
   const renderDeleteButton = () => {
+    console.log('deletebutton', user, blog)
     if (user.id === blog.user.id)
-      return <button onClick={handleRemoveClick}>remove</button>
+      return (
+        <button className="deleteButton" onClick={handleRemoveClick}>
+          remove
+        </button>
+      )
   }
 
   return (
@@ -47,7 +52,7 @@ const Blog = ({ user, blog, handleAddLike, handleRemoveBlog }) => {
         <br />
         {blog.url}
         <br />
-        {renderDeleteButton()}
+        {user ? renderDeleteButton() : null}
       </Togglable>
     </div>
   )

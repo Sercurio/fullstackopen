@@ -25,6 +25,9 @@ const AddBlogForm = ({ handleAddBlog }) => {
       author: author,
       url: url,
     }
+    setTitle('')
+    setAuthor('')
+    setUrl('')
     handleAddBlog(blogObject)
   }
 
@@ -32,7 +35,7 @@ const AddBlogForm = ({ handleAddBlog }) => {
     <form onSubmit={addBlog} className="form">
       <label>title</label>
       <input
-        key="title"
+        id="title"
         value={title}
         onChange={handleTitleChange}
         className="titleInput"
@@ -40,7 +43,7 @@ const AddBlogForm = ({ handleAddBlog }) => {
       <br />
       <label>author</label>
       <input
-        key="author"
+        id="author"
         value={author}
         onChange={handleAuthorChange}
         className="authorInput"
@@ -48,13 +51,15 @@ const AddBlogForm = ({ handleAddBlog }) => {
       <br />
       <label>url</label>
       <input
-        key="url"
+        id="url"
         value={url}
         onChange={handleUrlChange}
         className="urlInput"
       />
       <br />
-      <button type="submit">create</button>
+      <button id="create" type="submit">
+        create
+      </button>
     </form>
   )
 }

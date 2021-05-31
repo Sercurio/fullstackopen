@@ -24,9 +24,17 @@ const Notification = ({ message }) => {
 
   if (message === null) return null
   else if (message.startsWith('SUCCESS'))
-    return <div style={notificationStyleSuccess}>{message}</div>
+    return (
+      <div className="success" style={notificationStyleSuccess}>
+        {message}
+      </div>
+    )
   else if (message.startsWith('ERROR'))
-    return <div style={notificationStyleError}>{message}</div>
+    return (
+      <div className="error" style={notificationStyleError}>
+        {message}
+      </div>
+    )
 }
 
 export default Notification

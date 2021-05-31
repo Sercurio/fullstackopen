@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import Blog from './components/Blog'
 import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
@@ -8,7 +9,7 @@ import loginService from './services/logins'
 import Togglable from './components/Togglable'
 
 const App = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(null)
 
   const [blogs, setBlogs] = useState([])
 
@@ -27,7 +28,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const localStorageUser = localStorage.getItem('user')
+    const localStorageUser = JSON.parse(localStorage.getItem('user'))
     if (localStorageUser) setUser(localStorageUser)
   }, [])
 
@@ -36,6 +37,7 @@ const App = () => {
       userObject.username,
       userObject.password,
     )
+
     if (response.token) {
       userObject = {
         ...userObject,
