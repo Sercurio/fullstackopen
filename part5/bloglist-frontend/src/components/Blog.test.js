@@ -54,8 +54,6 @@ test('verify that likes and url are displayed when show button are clicked', () 
     />,
   )
 
-  const div = component.container.querySelector('.blog')
-
   const togglableBlogInfos =
     component.container.querySelector('.togglableContent')
 

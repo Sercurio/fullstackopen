@@ -4,20 +4,6 @@ import { render, fireEvent } from '@testing-library/react'
 import AddBlogForm from './AddBlogForm'
 
 test('verify that the eventHandler passed for adding new blog contains all datas', () => {
-  const user = {
-    id: 'test',
-    username: 'Louis',
-    name: 'Louis',
-  }
-
-  const blog = {
-    title: 'Why VIM changed my life',
-    author: 'louis',
-    url: 'https://vim.org',
-    likes: 0,
-    user: user,
-  }
-
   const addBlog = jest.fn()
 
   const component = render(<AddBlogForm handleAddBlog={addBlog} />)

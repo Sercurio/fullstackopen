@@ -30,7 +30,6 @@ const Blog = ({ user, blog, handleAddLike, handleRemoveBlog }) => {
   }
 
   const renderDeleteButton = () => {
-    console.log('deletebutton', user, blog)
     if (user.id === blog.user.id)
       return (
         <button className="deleteButton" onClick={handleRemoveClick}>

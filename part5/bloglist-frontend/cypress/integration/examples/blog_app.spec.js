@@ -9,7 +9,7 @@ describe('Blog app', function () {
     }
     cy.request('POST', 'http://localhost:3003/api/users/', user)
     cy.visit('http://localhost:3000')
-  }) /*
+  })
 
   it('Login form is shown', function () {
     cy.get('#usernameInput')
@@ -36,12 +36,12 @@ describe('Blog app', function () {
         .and('have.css', 'color', 'rgb(255, 0, 0)')
     })
   })
-*/
+
   describe('When logged in', function () {
     beforeEach(function () {
       cy.login({ username: 'root', password: 'root' })
     })
-    /*
+
     it('A blog can be created', function () {
       cy.contains('create blog').click()
       cy.get('#title').type('Vim is best')
@@ -95,17 +95,16 @@ describe('Blog app', function () {
       cy.get('#url').type('otherBlog')
 
       cy.get('#create').click()
-      cy.wait(500)
 
       localStorage.removeItem('user')
       cy.visit('http://localhost:3000')
       cy.login({ username: 'root', password: 'root' })
-      cy.wait(500)
+
       cy.contains('otherBlog').parent().contains('view').click()
       cy.contains('otherBlog').parent().get('.deleteButton').should('not.exist')
     })
-*/
-    it('user cannot delete blog from not him', function () {
+
+    it('sorting according to likes', function () {
       cy.contains('create blog').click()
       cy.get('#title').type('Vim is best')
       cy.get('#author').type('vimorg')
@@ -127,23 +126,20 @@ describe('Blog app', function () {
       cy.contains('Vim is best').contains('view').click()
       cy.contains('Vim is best').contains('like').as('likeButton')
       cy.get('@likeButton').click()
-      cy.wait(500)
+
       cy.get('@likeButton').click()
-      cy.wait(500)
+
       cy.get('@likeButton').click()
-      cy.wait(500)
 
       cy.contains('otherBlog1').contains('view').click()
       cy.contains('otherBlog1').contains('like').as('likeButton2')
       cy.get('@likeButton2').click()
-      cy.wait(500)
+
       cy.get('@likeButton2').click()
-      cy.wait(500)
 
       cy.contains('otherBlog4').contains('view').click()
       cy.contains('otherBlog4').contains('like').as('likeButton3')
       cy.get('@likeButton3').click()
-      cy.wait(500)
 
       cy.get('.blog').eq(0).contains('Vim is best')
       cy.get('.blog').eq(1).contains('otherBlog1')
@@ -151,15 +147,14 @@ describe('Blog app', function () {
 
       cy.contains('otherBlog4').contains('like').as('likeButton3')
       cy.get('@likeButton3').click()
-      cy.wait(500)
+
       cy.get('@likeButton3').click()
-      cy.wait(500)
+
       cy.get('@likeButton3').click()
-      cy.wait(500)
+
       cy.get('@likeButton3').click()
-      cy.wait(500)
+
       cy.get('@likeButton3').click()
-      cy.wait(500)
 
       cy.get('.blog').eq(0).contains('otherBlog4')
       cy.get('.blog').eq(1).contains('Vim is best')
