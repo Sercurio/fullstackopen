@@ -1,0 +1,17 @@
+import { useState } from 'react'
+
+export const useField = type => {
+  const [value, setValue] = useState('')
+  const field = {
+    value,
+    onChange: event => {
+      setValue(event.target.value)
+    },
+  }
+
+  const reset = () => {
+    setValue('')
+  }
+
+  return { field, reset }
+}
