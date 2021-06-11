@@ -215,7 +215,7 @@ Cypress doesn't launch and don't give us any errors.
 We need to first download an XServer for windows, for example : https://github.com/ArcticaProject/vcxsrv and configure the shortcut target with -ac arguments.
 
 ```
-C:/{pathtoexecutable}/xLaunch.exe -ac
+C:/{pathtoexecutable}/xlaunch.exe -ac
 ```
 
 When Xlaunch is launched, we need to tick the "Disable access control" box.
