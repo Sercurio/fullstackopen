@@ -18,12 +18,12 @@ const App = () => {
   const loginFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) =>
+    blogService.getAll().then(blogs =>
       setBlogs(
         blogs.sort((a, b) => {
           return b.likes - a.likes
-        }),
-      ),
+        })
+      )
     )
   }, [])
 
@@ -32,10 +32,10 @@ const App = () => {
     if (localStorageUser) setUser(localStorageUser)
   }, [])
 
-  const handleLogin = async (userObject) => {
+  const handleLogin = async userObject => {
     const response = await loginService.login(
       userObject.username,
-      userObject.password,
+      userObject.password
     )
 
     if (response.token) {
@@ -62,11 +62,11 @@ const App = () => {
     setTimeout(() => setNotificationMessage(null), 2000)
   }
 
-  const handleAddBlog = (blogObject) => {
+  const handleAddBlog = blogObject => {
     loginFormRef.current.toggleVisibility()
     blogService
       .addBlog(user, blogObject)
-      .then((data) => {
+      .then(data => {
         setBlogs(blogs.concat(data))
         setNotificationMessage('SUCCESS blog added')
         setTimeout(() => setNotificationMessage(null), 2000)
@@ -76,11 +76,11 @@ const App = () => {
         setTimeout(() => setNotificationMessage(null), 2000)
       })
   }
-  const handleAddLike = (blog) => {
+  const handleAddLike = blog => {
     blogService
       .addLike(user, blog)
-      .then((response) => {
-        const newBlogs = blogs.map((b) => {
+      .then(response => {
+        const newBlogs = blogs.map(b => {
           if (b.id === response.id) {
             const updatedBlog = {
               ...b,
@@ -93,21 +93,21 @@ const App = () => {
         setBlogs(
           newBlogs.sort((a, b) => {
             return b.likes - a.likes
-          }),
+          })
         )
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error)
       })
   }
 
-  const handleRemoveBlog = (blog) => {
+  const handleRemoveBlog = blog => {
     blogService
       .deleteBlog(user, blog)
       .then(() => {
-        setBlogs(blogs.filter((b) => b.id !== blog.id))
+        setBlogs(blogs.filter(b => b.id !== blog.id))
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error)
       })
   }
@@ -127,14 +127,14 @@ const App = () => {
       {user ? (
         <div>
           <Togglable
-            buttonLabel="create blog"
-            cancelLabel="cancel"
+            buttonLabel='create blog'
+            cancelLabel='cancel'
             ref={loginFormRef}
           >
             <AddBlogForm handleAddBlog={handleAddBlog} />
           </Togglable>
 
-          {blogs.map((blog) => (
+          {blogs.map(blog => (
             <Blog
               user={user}
               key={blog.id}

@@ -22,16 +22,16 @@ const Notification = ({ message }) => {
     display: 'inline-block',
   }
 
-  if (message === null) return null
+  if (message === null) return <br />
   else if (message.startsWith('SUCCESS'))
     return (
-      <div className="success" style={notificationStyleSuccess}>
+      <div className='success' style={notificationStyleSuccess}>
         {message}
       </div>
     )
   else if (message.startsWith('ERROR'))
     return (
-      <div className="error" style={notificationStyleError}>
+      <div className='error' style={notificationStyleError}>
         {message}
       </div>
     )
