@@ -11,5 +11,18 @@ const login = async (username, password) => {
   }
 }
 
-const loginService = { login }
+const verifyToken = async token => {
+  try {
+    const response = await axios.post(baseUrl, null, {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    })
+    return response
+  } catch (error) {
+    return { error }
+  }
+}
+
+const loginService = { login, verifyToken }
 export default loginService

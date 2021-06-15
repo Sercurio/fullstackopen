@@ -1,16 +1,13 @@
-import React, { useRef } from 'react'
-import Togglable from './Togglable'
-import PropTypes from 'prop-types'
+import React /*, { useRef } */ from 'react'
+//import { useDispatch, useSelector } from 'react-redux'
+// import Togglable from './Togglable'
+//import { addLikeBlog, removeBlog } from '../reducers/blogReducer'
+import { Link } from 'react-router-dom'
 
-const Blog = ({ user, blog, handleAddLike, handleRemoveBlog }) => {
-  const blogRef = useRef()
-
-  Blog.propTypes = {
-    user: PropTypes.any.isRequired,
-    blog: PropTypes.any.isRequired,
-    handleAddLike: PropTypes.func.isRequired,
-    handleRemoveBlog: PropTypes.func.isRequired,
-  }
+const Blog = ({ blog }) => {
+  //const dispatch = useDispatch()
+  //const user = useSelector(state => state.user)
+  //const blogRef = useRef()
 
   const blogStyle = {
     paddingTop: 10,
@@ -20,39 +17,40 @@ const Blog = ({ user, blog, handleAddLike, handleRemoveBlog }) => {
     marginBottom: 5,
   }
 
-  const handleLikeClick = () => {
-    handleAddLike(blog)
-  }
+  // const handleLikeClick = () => {
+  //   dispatch(addLikeBlog(blog))
+  // }
 
-  const handleRemoveClick = () => {
-    if (window.confirm(`Remove blog ${blog.title} by ${user.username}`))
-      handleRemoveBlog(blog)
-  }
+  // const handleRemoveClick = () => {
+  //   if (window.confirm(`Remove blog ${blog.title}`))
+  //     dispatch(removeBlog(user, blog))
+  //   //by ${user.username}
+  // }
 
-  const renderDeleteButton = () => {
-    if (user.id === blog.user.id)
-      return (
-        <button className="deleteButton" onClick={handleRemoveClick}>
-          remove
-        </button>
-      )
-  }
+  // const renderDeleteButton = () => {
+  //   if (user.id === blog.user.id)
+  //     return (
+  //       <button className='deleteButton' onClick={handleRemoveClick}>
+  //         remove
+  //       </button>
+  //     )
+  // }
 
   return (
-    <div className="blog" style={blogStyle}>
-      {blog.title}
-      <Togglable buttonLabel="view" cancelLabel="hide" ref={blogRef}>
-        {blog.author}
-        <br />
-        likes {blog.likes}{' '}
-        <button onClick={handleLikeClick} className="likeButton">
-          like
-        </button>
-        <br />
-        {blog.url}
-        <br />
-        {user ? renderDeleteButton() : null}
-      </Togglable>
+    <div className='blog' style={blogStyle}>
+      <Link to={`blogs/${blog.id}`}>{blog.title}</Link>
+      {/* <Togglable buttonLabel='view' cancelLabel='hide' ref={blogRef}> */}
+      {/* {blog.author}
+      <br />
+      likes {blog.likes}{' '}
+      <button onClick={handleLikeClick} className='likeButton'>
+        like
+      </button>
+      <br />
+      {blog.url}
+      <br />
+      {user ? renderDeleteButton() : null} */}
+      {/* </Togglable> */}
     </div>
   )
 }

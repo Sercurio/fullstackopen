@@ -5,6 +5,20 @@ const User = require('../models/user')
 
 router.post('/', async (request, response) => {
   const body = request.body
+  if (request.token) {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+    return response.status(200).send({
+      token: request.token,
+      username: user.username,
+      name: user.name,
+      id: user._id,
+    })
+  }
+
   const user = await User.findOne({ username: body.username })
 
   const passwordCorrect =

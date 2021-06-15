@@ -1,24 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addBlog } from '../reducers/blogReducer'
+import Togglable from './Togglable'
 
-const AddBlogForm = ({ handleAddBlog }) => {
+const AddBlogForm = () => {
+  const dispatch = useDispatch()
+  const addBlogFormRef = useRef()
+  const user = useSelector(state => state.user)
+
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = e => {
     const titleValue = e.target.value
     setTitle(titleValue)
   }
-  const handleAuthorChange = (e) => {
+  const handleAuthorChange = e => {
     const authorValue = e.target.value
     setAuthor(authorValue)
   }
-  const handleUrlChange = (e) => {
+  const handleUrlChange = e => {
     const urlValue = e.target.value
     setUrl(urlValue)
   }
 
-  const addBlog = (e) => {
+  const handleAddBlog = e => {
     e.preventDefault()
     const blogObject = {
       title: title,
@@ -28,39 +35,53 @@ const AddBlogForm = ({ handleAddBlog }) => {
     setTitle('')
     setAuthor('')
     setUrl('')
-    handleAddBlog(blogObject)
+
+    addBlogFormRef.current.toggleVisibility()
+    dispatch(addBlog(user, blogObject))
   }
 
   return (
-    <form onSubmit={addBlog} className="form">
-      <label>title</label>
-      <input
-        id="title"
-        value={title}
-        onChange={handleTitleChange}
-        className="titleInput"
-      />
-      <br />
-      <label>author</label>
-      <input
-        id="author"
-        value={author}
-        onChange={handleAuthorChange}
-        className="authorInput"
-      />
-      <br />
-      <label>url</label>
-      <input
-        id="url"
-        value={url}
-        onChange={handleUrlChange}
-        className="urlInput"
-      />
-      <br />
-      <button id="create" type="submit">
-        create
-      </button>
-    </form>
+    <div>
+      {user ? (
+        <div>
+          <Togglable
+            buttonLabel='create blog'
+            cancelLabel='cancel'
+            ref={addBlogFormRef}
+          >
+            <form onSubmit={handleAddBlog} className='form'>
+              <label>title</label>
+              <input
+                id='title'
+                value={title}
+                onChange={handleTitleChange}
+                className='titleInput'
+              />
+              <br />
+              <label>author</label>
+              <input
+                id='author'
+                value={author}
+                onChange={handleAuthorChange}
+                className='authorInput'
+              />
+              <br />
+              <label>url</label>
+              <input
+                id='url'
+                value={url}
+                onChange={handleUrlChange}
+                className='urlInput'
+              />
+              <br />
+              <button id='create' type='submit'>
+                create
+              </button>
+            </form>
+          </Togglable>
+        </div>
+      ) : null}
+    </div>
   )
 }
 

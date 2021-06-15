@@ -1,153 +1,56 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import React from 'react'
-import Blog from './components/Blog'
-import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
+import { Switch, Route /*, useRouteMatch, useHistory*/ } from 'react-router-dom'
 import LoginForm from './components/LoginForm'
-import blogService from './services/blogs'
-import loginService from './services/logins'
-import Togglable from './components/Togglable'
+import { useDispatch } from 'react-redux'
+import BlogList from './components/BlogList'
+import UserStats from './components/UserStats'
+import { initializeBlogs } from './reducers/blogReducer'
+import { verifyUserToken } from './reducers/userReducer'
+import User from './components/User'
+import BlogDetails from './components/BlogDetails'
+import Menu from './components/Menu'
+import { Container } from 'semantic-ui-react'
 
 const App = () => {
-  const [user, setUser] = useState(null)
-
-  const [blogs, setBlogs] = useState([])
-
-  const [notificationMessage, setNotificationMessage] = useState(null)
-
-  const loginFormRef = useRef()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(
-        blogs.sort((a, b) => {
-          return b.likes - a.likes
-        })
-      )
-    )
+    dispatch(initializeBlogs())
   }, [])
 
-  useEffect(() => {
+  useEffect(async () => {
     const localStorageUser = JSON.parse(localStorage.getItem('user'))
-    if (localStorageUser) setUser(localStorageUser)
+    if (localStorageUser) {
+      dispatch(verifyUserToken(localStorageUser.token))
+    }
   }, [])
 
-  const handleLogin = async userObject => {
-    const response = await loginService.login(
-      userObject.username,
-      userObject.password
-    )
-
-    if (response.token) {
-      userObject = {
-        ...userObject,
-        token: response.token,
-        id: response.id,
-      }
-      setUser(userObject)
-      setNotificationMessage('SUCCESS login')
-      setTimeout(() => setNotificationMessage(null), 2000)
-    } else {
-      setUser(null)
-      setNotificationMessage('ERROR login')
-      setTimeout(() => setNotificationMessage(null), 2000)
-    }
-    localStorage.setItem('user', JSON.stringify(userObject))
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('user')
-    setUser(null)
-    setNotificationMessage('SUCCESS logout')
-    setTimeout(() => setNotificationMessage(null), 2000)
-  }
-
-  const handleAddBlog = blogObject => {
-    loginFormRef.current.toggleVisibility()
-    blogService
-      .addBlog(user, blogObject)
-      .then(data => {
-        setBlogs(blogs.concat(data))
-        setNotificationMessage('SUCCESS blog added')
-        setTimeout(() => setNotificationMessage(null), 2000)
-      })
-      .catch(() => {
-        setNotificationMessage('ERROR when adding blog')
-        setTimeout(() => setNotificationMessage(null), 2000)
-      })
-  }
-  const handleAddLike = blog => {
-    blogService
-      .addLike(user, blog)
-      .then(response => {
-        const newBlogs = blogs.map(b => {
-          if (b.id === response.id) {
-            const updatedBlog = {
-              ...b,
-              likes: response.likes,
-            }
-            return updatedBlog
-          }
-          return b
-        })
-        setBlogs(
-          newBlogs.sort((a, b) => {
-            return b.likes - a.likes
-          })
-        )
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
-
-  const handleRemoveBlog = blog => {
-    blogService
-      .deleteBlog(user, blog)
-      .then(() => {
-        setBlogs(blogs.filter(b => b.id !== blog.id))
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
+  // const history = useHistory()
+  // const match = useRouteMatch('/users/:id')
 
   return (
-    <div>
+    <Container textAlign='center'>
+      <Menu />
       <h2>blogs</h2>
-      <Notification message={notificationMessage} />
-      {user ? (
-        <div>
-          <h3>User {user.username} logged in</h3>
-          <button onClick={handleLogout}>logout</button>
-        </div>
-      ) : (
-        <h3>notConnected</h3>
-      )}
-      {user ? (
-        <div>
-          <Togglable
-            buttonLabel='create blog'
-            cancelLabel='cancel'
-            ref={loginFormRef}
-          >
-            <AddBlogForm handleAddBlog={handleAddBlog} />
-          </Togglable>
-
-          {blogs.map(blog => (
-            <Blog
-              user={user}
-              key={blog.id}
-              blog={blog}
-              handleAddLike={handleAddLike}
-              handleRemoveBlog={handleRemoveBlog}
-            />
-          ))}
-        </div>
-      ) : (
-        <LoginForm handleLogin={handleLogin} />
-      )}
-    </div>
+      <Notification />
+      <LoginForm />
+      <Switch>
+        <Route path='/users/:id'>
+          <User />
+        </Route>
+        <Route path='/blogs/:id'>
+          <BlogDetails />
+        </Route>
+        <Route path='/users'>
+          <UserStats />
+        </Route>
+        <Route path='/'>
+          <BlogList />
+        </Route>
+      </Switch>
+    </Container>
   )
 }
 

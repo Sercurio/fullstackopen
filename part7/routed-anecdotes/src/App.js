@@ -8,6 +8,7 @@ import {
   useHistory,
 } from 'react-router-dom'
 import { useField } from './hooks/index'
+import { List } from 'semantic-ui-react'
 
 const Menu = () => {
   const padding = {
@@ -33,9 +34,9 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote => (
-        <li key={anecdote.id}>
+        <List key={anecdote.id}>
           <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>
+        </List>
       ))}
     </ul>
   </div>

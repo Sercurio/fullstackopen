@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const Notification = ({ message }) => {
+const Notification = () => {
+  const notification = useSelector(state => state.notification)
+
   const notificationStyleSuccess = {
     color: 'green',
     background: 'lightgrey',
@@ -22,17 +25,17 @@ const Notification = ({ message }) => {
     display: 'inline-block',
   }
 
-  if (message === null) return <br />
-  else if (message.startsWith('SUCCESS'))
+  if (notification === null || notification === '') return null
+  else if (notification.startsWith('SUCCESS'))
     return (
       <div className='success' style={notificationStyleSuccess}>
-        {message}
+        {notification}
       </div>
     )
-  else if (message.startsWith('ERROR'))
+  else if (notification.startsWith('ERROR'))
     return (
       <div className='error' style={notificationStyleError}>
-        {message}
+        {notification}
       </div>
     )
 }

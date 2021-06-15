@@ -17,11 +17,18 @@ const addBlog = async (user, blogObject) => {
   return response.data
 }
 
-const addLike = async (user, blogObject) => {
+const addLike = async blogObject => {
   const request = axios.put(
     `${baseUrl}/${blogObject.id.toString()}`,
-    blogObject,
+    blogObject
   )
+  const response = await request
+  return response.data
+}
+
+const addComment = async blogObject => {
+  const urlComment = `${baseUrl}/${blogObject.id.toString()}/comments`
+  const request = axios.put(urlComment, blogObject)
   const response = await request
   return response.data
 }
@@ -34,8 +41,8 @@ const deleteBlog = async (user, blogObject) => {
     },
   })
   const response = await request
-  return response.data
+  return response
 }
 
-const blogService = { getAll, addBlog, addLike, deleteBlog }
+const blogService = { getAll, addBlog, addLike, deleteBlog, addComment }
 export default blogService

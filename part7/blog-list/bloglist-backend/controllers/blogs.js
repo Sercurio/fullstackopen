@@ -28,7 +28,7 @@ router.delete('/:id', async (request, response) => {
 
   await blog.remove()
   user.blogs = user.blogs.filter(
-    (b) => b.id.toString() !== request.params.id.toString(),
+    b => b.id.toString() !== request.params.id.toString()
   )
   await user.save()
   response.status(204).end()
@@ -48,7 +48,29 @@ router.put('/:id', async (request, response) => {
     newBlog,
     {
       new: true,
-    },
+    }
+  )
+  response.json(updatedBlog.toJSON())
+})
+
+router.put('/:id/comments', async (request, response) => {
+  const blog = request.body
+
+  const newBlog = {
+    id: blog.id,
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes,
+    comments: blog.comments,
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    newBlog.id.toString(),
+    newBlog,
+    {
+      new: true,
+    }
   )
   response.json(updatedBlog.toJSON())
 })

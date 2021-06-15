@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+const subSchema = mongoose.Schema({
+  type: String,
+})
+
 const blogSchema = mongoose.Schema({
   title: String,
   author: String,
@@ -9,6 +13,7 @@ const blogSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  comments: [String],
 })
 
 blogSchema.set('toJSON', {
