@@ -184,6 +184,12 @@ Love this CSS framework
 
 https://github.com/Semantic-Org/Semantic-UI-React
 
+### uuid
+
+generate unique key
+
+https://github.com/uuidjs/uuid
+
 ## Tools
 
 ### Heroku
