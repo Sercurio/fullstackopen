@@ -3,10 +3,10 @@ import { useMutation, useQuery } from '@apollo/client'
 import { ALL_AUTHORS, EDIT_BIRTH } from '../queries'
 
 const Authors = props => {
-  const result = useQuery(ALL_AUTHORS, {
-    pollInterval: 2000,
+  const result = useQuery(ALL_AUTHORS)
+  const [editBirth] = useMutation(EDIT_BIRTH, {
+    refetchQueries: [{ query: ALL_AUTHORS }],
   })
-  const [editBirth] = useMutation(EDIT_BIRTH)
 
   const [authors, setAuthors] = useState([])
 
@@ -24,15 +24,16 @@ const Authors = props => {
 
   const handleBirthChangeForm = e => {
     e.preventDefault()
-
     editBirth({
       variables: { name: authorName, setBornTo: Number(authorBirth) },
     })
+    setAuthorBirth('')
   }
 
   useEffect(() => {
     if (result.data) {
       setAuthors(result.data.allAuthors)
+      setAuthorName(result.data.allAuthors[0].name)
     }
   }, [result])
 
@@ -70,7 +71,9 @@ const Authors = props => {
           {authors ? (
             <select value={authorName} onChange={handleAuthorNameChange}>
               {authors.map(author => (
-                <option value={author.name}>{author.name}</option>
+                <option key={author.name} value={author.name}>
+                  {author.name}
+                </option>
               ))}
             </select>
           ) : null}

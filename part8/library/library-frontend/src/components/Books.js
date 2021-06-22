@@ -4,10 +4,7 @@ import { ALL_BOOKS } from '../queries'
 
 const Books = props => {
   const [books, setBooks] = useState([])
-  const result = useQuery(ALL_BOOKS, {
-    pollInterval: 2000,
-  })
-
+  const result = useQuery(ALL_BOOKS)
   useEffect(() => {
     if (result.data) setBooks(result.data.allBooks)
   }, [result])
@@ -27,13 +24,15 @@ const Books = props => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.map(a => (
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
-            </tr>
-          ))}
+          {books
+            ? books.map(a => (
+                <tr key={a.title}>
+                  <td>{a.title}</td>
+                  <td>{a.author.name}</td>
+                  <td>{a.published}</td>
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
     </div>
