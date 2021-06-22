@@ -178,6 +178,18 @@ A utility-first CSS framework for rapidly building custom user interfaces.
 
 https://github.com/tailwindlabs/tailwindcss
 
+### Semantic-UI-React
+
+Love this CSS framework
+
+https://github.com/Semantic-Org/Semantic-UI-React
+
+### uuid
+
+generate unique key
+
+https://github.com/uuidjs/uuid
+
 ## Tools
 
 ### Heroku
