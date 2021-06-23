@@ -222,6 +222,12 @@ Web application that permit to host MongoDB database.
 
 https://www.mongodb.com/fr-fr/cloud/atlas
 
+### Apollo Client Devtools
+
+Tool that permit to see the HTTP Post request made with apollo-client
+
+https://chrome.google.com/webstore/detail/apollo-client-devtools/jdkknkkbebbapilgoeccciglkfbmbnfm/related
+
 # Problems encountred
 
 ## React auto refresh with wsl2
