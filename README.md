@@ -16,6 +16,12 @@ The JavaScript reference implementation for GraphQL, a query language for APIs c
 
 https://github.com/graphql/graphql-js
 
+### apollo-client
+
+Apollo Client is a fully-featured caching GraphQL client with integrations for React
+
+https://github.com/apollographql/apollo-client
+
 ### apollo-server
 
 Apollo Server is a community-maintained open-source GraphQL server.
