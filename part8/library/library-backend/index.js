@@ -28,6 +28,8 @@ mongoose
     console.log('error connection to MongoDB:', error.message)
   })
 
+mongoose.set('debug', true)
+
 const typeDefs = gql`
   type Book {
     title: String!
@@ -95,7 +97,8 @@ const resolvers = {
         return test
       }
     },
-    allAuthors: (root, args) => Author.find({}),
+    //TODO
+    allAuthors: (root, args) => Author.find({}).populate('books'),
     me: (root, args, context) => {
       return context.currentUser
     },
