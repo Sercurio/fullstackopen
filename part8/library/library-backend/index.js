@@ -109,6 +109,7 @@ const resolvers = {
 
       try {
         await book.save()
+        await Author.findOneAndUpdate({ name: args.author }, {"$push" : {books: book._id}})
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
