@@ -97,7 +97,6 @@ const resolvers = {
         return test
       }
     },
-    //TODO
     allAuthors: (root, args) => Author.find({}).populate('books'),
     me: (root, args, context) => {
       return context.currentUser
@@ -105,16 +104,15 @@ const resolvers = {
   },
   Author: {
     bookCount: async root => {
-      const booksAndAuthors = await Book.find({}).populate('author')
-      return booksAndAuthors.filter(book => book.author.name === root.name)
-        .length
+      console.log('root', root)
+      return root.books ? root.books.length : 0
     },
   },
 
   Mutation: {
     addBook: async (root, args, context) => {
       if (!context.currentUser) throw new UserInputError('You must be logged')
-      const author = await Author.findOne({ name: args.author })
+      var author = await Author.findOne({ name: args.author })
       if (!author) return null
       const book = new Book({
         ...args,
@@ -123,7 +121,11 @@ const resolvers = {
 
       try {
         await book.save()
-        await Author.findOneAndUpdate({ name: args.author }, {"$push" : {books: book._id}})
+        author = await Author.findOneAndUpdate(
+          { name: args.author },
+          { $push: { books: book._id } },
+          { new: true }
+        )
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
