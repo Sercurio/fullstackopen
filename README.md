@@ -10,6 +10,24 @@ npx create-react-app {name of app}
 
 ## Librairies
 
+### graphql
+
+The JavaScript reference implementation for GraphQL, a query language for APIs created by Facebook.
+
+https://github.com/graphql/graphql-js
+
+### apollo-client
+
+Apollo Client is a fully-featured caching GraphQL client with integrations for React
+
+https://github.com/apollographql/apollo-client
+
+### apollo-server
+
+Apollo Server is a community-maintained open-source GraphQL server.
+
+https://github.com/apollographql/apollo-server
+
 ### json-server
 
 Allow to create a local database with json extension for simulate a backend rapidly.
@@ -203,6 +221,12 @@ https://www.heroku.com/
 Web application that permit to host MongoDB database.
 
 https://www.mongodb.com/fr-fr/cloud/atlas
+
+### Apollo Client Devtools
+
+Tool that permit to see the HTTP Post request made with apollo-client
+
+https://chrome.google.com/webstore/detail/apollo-client-devtools/jdkknkkbebbapilgoeccciglkfbmbnfm/related
 
 # Problems encountred
 

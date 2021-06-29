@@ -1,11 +1,12 @@
 const { ApolloServer, gql, UserInputError } = require('apollo-server')
-const { v4: uuidv4 } = require('uuid')
 const Book = require('./models/book')
 const Author = require('./models/author')
 const User = require('./models/user')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
 
 const JWT_SECRET = 'SEKRED'
 
@@ -26,6 +27,8 @@ mongoose
   .catch(error => {
     console.log('error connection to MongoDB:', error.message)
   })
+
+mongoose.set('debug', true)
 
 const typeDefs = gql`
   type Book {
@@ -74,6 +77,10 @@ const typeDefs = gql`
 
     login(username: String!, password: String!): Token
   }
+
+  type Subscription {
+    bookAdded: Book!
+  }
 `
 
 const resolvers = {
@@ -83,8 +90,15 @@ const resolvers = {
     allBooks: async (root, args) => {
       if (!args.author && !args.genre)
         return await Book.find({}).populate('author')
+      if (!args.author && args.genre) {
+        const test = await Book.find({ genres: [args.genre] }).populate(
+          'author'
+        )
+        return test
+      }
     },
-    allAuthors: (root, args) => Author.find({}),
+    //TODO
+    allAuthors: (root, args) => Author.find({}).populate('books'),
     me: (root, args, context) => {
       return context.currentUser
     },
@@ -115,6 +129,8 @@ const resolvers = {
           invalidArgs: args,
         })
       }
+
+      pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
       return book
     },
@@ -158,6 +174,11 @@ const resolvers = {
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     },
   },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED']),
+    },
+  },
 }
 
 const server = new ApolloServer({
@@ -165,7 +186,6 @@ const server = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     const auth = req ? req.headers.authorization : null
-    console.log(auth)
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
       const currentUser = await User.findById(decodedToken.id)
@@ -174,6 +194,7 @@ const server = new ApolloServer({
   },
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })
