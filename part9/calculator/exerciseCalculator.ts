@@ -1,38 +1,40 @@
 interface Result {
-  periodLength: number
-  trainingDays: number
-  success: boolean
-  rating: number
-  ratingDescription: string
-  target: number
-  average: number
+  periodLength: number;
+  trainingDays: number;
+  success: boolean;
+  rating: number;
+  ratingDescription: string;
+  target: number;
+  average: number;
 }
 
-const calculateExercises = (dailyExercicesHours: Array<number>): Result => {
+export const calculateExercises = (
+  dailyExercicesHours: Array<number>
+): Result => {
   if (dailyExercicesHours.length == 0) {
-    throw Error('empty array')
+    throw Error('empty array');
   }
-  const target = 2
+  const target = 2;
 
-  const periodLength = dailyExercicesHours.length - 1
+  const periodLength = dailyExercicesHours.length - 1;
 
   const trainingDays =
-    dailyExercicesHours.filter(d => d >= 0 && d != 0).length - 1
+    dailyExercicesHours.filter(d => d >= 0 && d != 0).length - 1;
 
   const average =
-    dailyExercicesHours.reduce((prev, curr) => prev + curr) / periodLength
+    dailyExercicesHours.reduce((prev, curr) => prev + curr) / periodLength;
 
-  const success = trainingDays >= target ? true : false
+  const success = trainingDays >= target ? true : false;
 
-  const rating = (3 * trainingDays) / 7
+  const rating = (3 * trainingDays) / 7;
 
-  var ratingDescription: string
+  let ratingDescription: string;
   if (rating >= 0 && rating < 1) {
-    ratingDescription = "It's bad, ur not gonna get cheeks this summer"
+    ratingDescription = "It's bad, ur not gonna get cheeks this summer";
   } else if (rating >= 1 && rating < 2) {
-    ratingDescription = 'Good point sir and body :wink wink:'
+    ratingDescription = 'Good point sir and body :wink wink:';
   } else {
-    ratingDescription = 'Ur perfect, change nothing'
+    ratingDescription = 'Ur perfect, change nothing';
   }
 
   return {
@@ -43,19 +45,36 @@ const calculateExercises = (dailyExercicesHours: Array<number>): Result => {
     ratingDescription,
     target,
     average,
-  }
-}
+  };
+};
 
+/*
 try {
-  var i = 0
-  var dailyExercicesHours: Array<number> = []
+  let i = 0;
+  const dailyExercicesHours: Array<number> = [];
   process.argv.forEach(arg => {
     if (i > 1) {
-      dailyExercicesHours.push(Number(arg))
+      dailyExercicesHours.push(Number(arg));
     }
-    i++
-  })
-  console.log(calculateExercises(dailyExercicesHours))
+    i++;
+  });
+  console.log(calculateExercises(dailyExercicesHours));
 } catch (e) {
-  console.error(e)
+  console.error(e);
 }
+*/
+
+export const calculateExercicesByPost = (
+  dailyExercices: number[],
+  target: number
+) => {
+  try {
+    const dailyExercicesHours: Array<number> = [];
+
+    dailyExercicesHours.push(target);
+
+    return calculateExercises(dailyExercicesHours.concat(dailyExercices));
+  } catch (e) {
+    throw Error('chiotte');
+  }
+};
