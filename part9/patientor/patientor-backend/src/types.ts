@@ -4,28 +4,6 @@ export interface Diagnosis {
   latin?: string;
 }
 
-export enum Gender {
-  Male = 'male',
-  Female = 'female',
-  Other = 'other',
-}
-
-export enum EntryType {
-  Hospital = 'Hospital',
-  OccupationalHealthcare = 'OccupationalHealthcare',
-  HealthCheck = 'HealthCheck',
-}
-
-export interface Patient {
-  id: string;
-  name: string;
-  occupation: string;
-  gender: Gender;
-  ssn?: string;
-  dateOfBirth?: string;
-  entries: Entry[];
-}
-
 interface BaseEntry {
   id: string;
   description: string;
@@ -41,26 +19,25 @@ export enum HealthCheckRating {
   'CriticalRisk' = 3,
 }
 
-export interface HealthCheckEntry extends BaseEntry {
+interface HealthCheckEntry extends BaseEntry {
   type: 'HealthCheck';
   healthCheckRating: HealthCheckRating;
 }
 
 // Define special omit for unions
-/*
+
 type UnionOmit<T, K extends string | number | symbol> = T extends unknown
   ? Omit<T, K>
   : never;
 // Define Entry without the 'id' property
-type EntryWithoutId = UnionOmit<Entry, 'id'>;
-*/
+export type NewEntry = UnionOmit<Entry, 'id'>;
 
-export interface HospitalEntry extends BaseEntry {
+interface HospitalEntry extends BaseEntry {
   type: 'Hospital';
   discharge: { date: string; criteria: string };
 }
 
-export interface OccupationalHealthcareEntry extends BaseEntry {
+interface OccupationalHealthcareEntry extends BaseEntry {
   type: 'OccupationalHealthcare';
   employerName: string;
   sickLeave?: { startDate: string; endDate: string };
@@ -70,3 +47,32 @@ export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+export interface Patient {
+  id: string;
+  name: string;
+  dateOfBirth: string;
+  ssn: string;
+  gender: Gender;
+  occupation: string;
+  entries: Entry[];
+}
+
+export type NewPatient = Omit<Patient, 'id'>;
+
+export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
+
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+}
+
+export type Discharge = {
+  date: string;
+  criteria: string;
+};
+
+export type SickLeave = {
+  startDate: string;
+  endDate: string;
+};

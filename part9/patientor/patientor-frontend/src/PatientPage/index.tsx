@@ -1,17 +1,51 @@
 import React from 'react';
 
 import axios from 'axios';
-import { Icon } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 
 import { useStateValue } from '../state';
 import { apiBaseUrl } from '../constants';
-import { Patient } from '../types';
+import { Patient, Diagnosis } from '../types';
 import { useParams } from 'react-router-dom';
-import { setPatient } from '../state/reducer';
+import { setPatient, setDiagnosisList, updatePatient } from '../state/reducer';
 
-const PatientPage = () => {
+import AddEntryModal from '../AddEntryModal';
+
+import EntryDetails from './EntryDetails';
+import { HealthCheckEntryFormValues } from '../AddEntryModal/AddEntryHealthCheckForm';
+
+const EntryPage = () => {
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const submitNewEntry = async (values: HealthCheckEntryFormValues) => {
+    try {
+      if (patient) {
+        const { data: newEntry } = await axios.post<Patient>(
+          `${apiBaseUrl}/patients/${patient.id}/entries`,
+          values
+        );
+        const updatedPatient = {
+          ...newEntry,
+        };
+        dispatch(updatePatient(updatedPatient));
+      }
+      closeModal();
+    } catch (e) {
+      console.error(e.response?.data || 'Unknown Error');
+      setError(e.response?.data?.error || 'Unknown error');
+    }
+  };
+
   const { id } = useParams<{ id: string }>();
-  const [{ patient }, dispatch] = useStateValue();
+  const [{ patient, diagnoses }, dispatch] = useStateValue();
   React.useEffect(() => {
     const fetchPatientInformation = async () => {
       try {
@@ -19,6 +53,11 @@ const PatientPage = () => {
           `${apiBaseUrl}/patients/${id}`
         );
         dispatch(setPatient(patientFromApi));
+
+        const { data: diagnosisListFromApi } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses`
+        );
+        dispatch(setDiagnosisList(diagnosisListFromApi));
       } catch (e) {
         console.error(e);
       }
@@ -31,20 +70,33 @@ const PatientPage = () => {
     else return <Icon name='female' />;
   };
 
+  if (!patient) return null;
+
   return (
     <div>
-      {patient ? (
-        <div>
-          <h2>
-            {patient.name} {renderSex(patient)}
-          </h2>
-          <br />
-          ssn: {patient.ssn}
-          <br />
-          occupation: {patient.occupation}
-        </div>
-      ) : null}
+      <h2>
+        {patient.name} {renderSex(patient)}
+      </h2>
+      <br />
+      ssn: {patient.ssn}
+      <br />
+      occupation: {patient.occupation}
+      <h3>entries:</h3>
+      {patient.entries.map(entry => (
+        <EntryDetails
+          key={entry.id}
+          entry={entry}
+          diagnoses={Object.values(diagnoses)}
+        />
+      ))}
+      <AddEntryModal
+        modalOpen={modalOpen}
+        onSubmit={submitNewEntry}
+        error={error}
+        onClose={closeModal}
+      />
+      <Button onClick={() => openModal()}>Add New Entry</Button>
     </div>
   );
 };
-export default PatientPage;
+export default EntryPage;
