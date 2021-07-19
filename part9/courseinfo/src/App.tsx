@@ -9,6 +9,7 @@ interface CoursePartBase {
 
 interface CourseNormalPart extends CoursePartBase {
   type: 'normal';
+  description: string;
 }
 interface CourseProjectPart extends CoursePartBase {
   type: 'groupProject';
@@ -17,19 +18,21 @@ interface CourseProjectPart extends CoursePartBase {
 
 interface CourseSubmissionPart extends CoursePartBase {
   type: 'submission';
+  description: string;
   exerciseSubmissionLink: string;
 }
 
-interface CourseWithDescription extends CoursePartBase {
-  type: 'withDescription';
+interface CourseSpecialPart extends CoursePartBase {
+  type: 'special';
   description: string;
+  requirements: string[];
 }
 
 type CoursePart =
   | CourseNormalPart
   | CourseProjectPart
   | CourseSubmissionPart
-  | CourseWithDescription;
+  | CourseSpecialPart;
 
 // this is the new coursePart variable
 const courseParts: CoursePart[] = [
@@ -58,6 +61,13 @@ const courseParts: CoursePart[] = [
     exerciseSubmissionLink: 'https://fake-exercise-submit.made-up-url.dev',
     type: 'submission',
   },
+  {
+    name: 'Backend development',
+    exerciseCount: 21,
+    description: 'Typing the backend',
+    requirements: ['nodejs', 'jest'],
+    type: 'special',
+  },
 ];
 
 const Header = ({ text }: { text: string }) => <h1>{text}</h1>;
@@ -67,19 +77,45 @@ const Part = ({ part }: { part: CoursePart }) => {
     case 'normal':
       return (
         <p key={part.name}>
-          {part.name} {part.exerciseCount}
+          <b>
+            {part.name} {part.exerciseCount}
+          </b>
+          <br />
+          <i>{part.description}</i>
         </p>
       );
-    case 'groupObject':
+    case 'groupProject':
       return (
         <p key={part.name}>
-          {part.name} {part.exerciseCount} {part.groupProjectCount}
+          <b>
+            {part.name} {part.exerciseCount}{' '}
+          </b>
+          <br />
+          project exercices: {part.groupProjectCount}
         </p>
       );
     case 'submission':
       return (
         <p key={part.name}>
-          {part.name} {part.exerciseCount} {part.exerciseSubmissionLink}
+          <b>
+            {part.name} {part.exerciseCount}
+          </b>
+          <br />
+          <i>{part.description}</i>
+          <br />
+          {part.exerciseSubmissionLink}
+        </p>
+      );
+    case 'special':
+      return (
+        <p key={part.name}>
+          <b>
+            {part.name} {part.exerciseCount}
+          </b>{' '}
+          <br />
+          <i>{part.description}</i>
+          <br />
+          required skills: {part.requirements.join(', ')}
         </p>
       );
     default:
