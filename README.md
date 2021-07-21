@@ -269,3 +269,54 @@ After that we start the dbus service with this command
 # Automatically start D-Bus to allow communication with Cypress GUI app
 sudo /etc/init.d/dbus start &> /dev/null
 ```
+
+## Can't open Android Emulator with expo (In progress)
+Ressources: https://gist.github.com/bergmannjg/461958db03c6ae41a66d264ae6504ade#install-tools-in-windows
+
+### Solution 1
+Ressource: https://stackoverflow.com/a/65295027/11631534
+Here's the full steps I found worked for LAN development between my mobile and expo running in WSL2 (Ubuntu 20 on Windows 10 20H2):
+
+1. One time at the start: open Expo ports inbound in Windows Firewall
+Windows firewall should be on, and it should block inbound attempts by default.
+The following will open the Expo ports 19000–19006, inbound, but only on a network that you have configured as "private" (that's the -Profile Private part):
+(powershell as Admin)
+
+```
+New-NetFireWallRule -Profile Private -DisplayName 'Expo ports for LAN development' `
+    -Direction Inbound -LocalPort 19000-19006 -Action Allow -Protocol TCP
+(You can check it after with Get-NetFirewallRule |Where-Object {$_.DisplayName -Match "Expo.*"})
+```
+
+2. Point portproxy to WSL; Re-run "Each time WSL has a new IP address"
+(I'm not sure yet how often the WSL IP address changes, but I suspect only a reboot would)
+
+I saw stuff on the web, including other answers here, saying portproxy to connectaddress=127.0.0.1 but it did not work for me (WSL2, Windows 10 20H2).
+I can't say why others found it worked, I can only say that repeated testing confirmed for me that 127.0.0.1 did not work, but the WSL IP address did work.
+
+So here's a reusable command to auto set the connectaddress to the right WSL address:
+(powershell — just for the easy inline Trim() — as Admin)
+```
+netsh interface portproxy add v4tov4 listenport=19000 listenaddress=0.0.0.0 `
+    connectport=19000 connectaddress=$($(wsl hostname -I).Trim());
+
+netsh interface portproxy add v4tov4 listenport=19001 listenaddress=0.0.0.0 `
+    connectport=19001 connectaddress=$($(wsl hostname -I).Trim());
+```
+    
+3. Point Metro to your dev machine LAN IP Address; Re-run inside WSL "Each time dev host has a new IP address"
+This is the one that probably changes most often. Your laptop local network IP certainly changes when you change networks (e.g. home/office) — and can change at other times too.
+
+Fortunately it's also pastable / aliasable:
+WSL2 shell
+
+```
+export REACT_NATIVE_PACKAGER_HOSTNAME=$(netsh.exe interface ip show address "Wi-Fi" | grep 'Adresse IP' | sed -r "s/[^0-9.]//g")
+```
+
+echo Meteor will use dev machine IP address: $REACT_NATIVE_PACKAGER_HOSTNAME
+(If your dev box doesn't change LAN often, you might get away with setting REACT_NATIVE_PACKAGER_HOSTNAME in your .bashrc / .zshrc)
+
+I "wish I didn't have to re-run things and it could all be automated",
+but that same laziness makes me happy to at least have commands 2 and 3 able to simple "rerun" and consistently get Expo LAN mode working for my WSL2-hosted Expo dev mode.
+
