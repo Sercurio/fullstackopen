@@ -258,6 +258,12 @@ Tool that permit to see the HTTP Post request made with apollo-client
 
 https://chrome.google.com/webstore/detail/apollo-client-devtools/jdkknkkbebbapilgoeccciglkfbmbnfm/related
 
+### Online code sandboxes
+
+Expo Snack is an online editor for React Native
+JSFiddle
+CodePen
+
 # Problems encountred
 
 ## React auto refresh with wsl2
