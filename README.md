@@ -10,6 +10,12 @@ npx create-react-app {name of app}
 
 ## Librairies
 
+### yup
+
+Dead simple Object schema validation
+
+https://github.com/jquense/yup
+
 ### Formik
 
 Forms without tears
