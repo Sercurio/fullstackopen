@@ -10,6 +10,18 @@ npx create-react-app {name of app}
 
 ## Librairies
 
+### yup
+
+Dead simple Object schema validation
+
+https://github.com/jquense/yup
+
+### Formik
+
+Forms without tears
+
+https://github.com/formium/formik
+
 ### ts-node-dev
 
 like nodemon but for ts
@@ -251,6 +263,12 @@ https://definitelytyped.org/
 Tool that permit to see the HTTP Post request made with apollo-client
 
 https://chrome.google.com/webstore/detail/apollo-client-devtools/jdkknkkbebbapilgoeccciglkfbmbnfm/related
+
+### Online code sandboxes
+
+Expo Snack is an online editor for React Native
+JSFiddle
+CodePen
 
 # Problems encountred
 
