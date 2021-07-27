@@ -10,6 +10,12 @@ npx create-react-app {name of app}
 
 ## Librairies
 
+### Formik
+
+Forms without tears
+
+https://github.com/formium/formik
+
 ### ts-node-dev
 
 like nodemon but for ts
