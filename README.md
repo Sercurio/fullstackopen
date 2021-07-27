@@ -10,6 +10,24 @@ npx create-react-app {name of app}
 
 ## Librairies
 
+### ts-node-dev
+
+like nodemon but for ts
+
+https://github.com/wclr/ts-node-dev
+
+### ts-node 
+
+ts-node is a TypeScript execution engine and REPL for Node.js.
+
+https://github.com/TypeStrong/ts-node
+
+### typescript
+
+javascript with types.
+
+https://github.com/microsoft/TypeScript
+
 ### graphql
 
 The JavaScript reference implementation for GraphQL, a query language for APIs created by Facebook.
@@ -221,6 +239,12 @@ https://www.heroku.com/
 Web application that permit to host MongoDB database.
 
 https://www.mongodb.com/fr-fr/cloud/atlas
+
+### DefinetivelyTyped
+
+Website that reference all library that are typescript typed
+
+https://definitelytyped.org/
 
 ### Apollo Client Devtools
 
