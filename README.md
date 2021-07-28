@@ -270,6 +270,12 @@ Expo Snack is an online editor for React Native
 JSFiddle
 CodePen
 
+### Ngrok
+
+Public url for testing
+
+https://ngrok.com/
+
 # Problems encountred
 
 ## React auto refresh with wsl2
