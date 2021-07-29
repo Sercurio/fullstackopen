@@ -19,7 +19,9 @@ const RepositoryList = () => {
   const renderItem = ({ item }) => <RepositoryItem item={item} />;
 
   const repositoryNodes = repositories
-    ? repositories.edges.map(edge => edge.node)
+    ? repositories.edges.map(edge => {
+        return { ...edge.node, key: edge.node.fullName };
+      })
     : [];
 
   return (
