@@ -10,6 +10,12 @@ npx create-react-app {name of app}
 
 ## Librairies
 
+### date-fns
+
+Comprehensive date library
+
+https://github.com/date-fns/date-fns
+
 ### yup
 
 Dead simple Object schema validation
