@@ -1,67 +1,88 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+  Linking,
+} from 'react-native';
+import { useHistory } from 'react-router-native';
 
 const RepositoryItem = ({ item }) => {
-  return (
-    <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignContent: 'center',
-          alignSelf: 'flex-start',
-          padding: 1,
-        }}
-      >
-        <View style={{ padding: 10 }}>
-          <Image
-            style={styles.tinyLogo}
-            source={{ uri: item.ownerAvatarUrl }}
-          />
-        </View>
-        <View style={{ padding: 10 }}>
-          <Text style={{ fontWeight: 'bold' }}>{item.fullName}</Text>
-          <Text>{item.description}</Text>
-          <Text
-            style={{
-              alignSelf: 'flex-start',
-              padding: 4,
-              borderRadius: 1,
-              backgroundColor: '#0366d6',
-              color: 'white',
-            }}
-          >
-            {item.language}
-          </Text>
-        </View>
-      </View>
+  const history = useHistory();
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>
-            {kFormatter(item.forksCount)}
-          </Text>
-          <Text>forks</Text>
+  return (
+    <Pressable
+      onPress={() => {
+        history.push({
+          pathname: `/repository/${item.id}`,
+        });
+      }}
+    >
+      <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignContent: 'center',
+            alignSelf: 'flex-start',
+            padding: 1,
+          }}
+        >
+          <View style={{ padding: 10 }}>
+            <Image
+              style={styles.tinyLogo}
+              source={{ uri: item.ownerAvatarUrl }}
+            />
+          </View>
+          <View style={{ padding: 10 }}>
+            <Text testID='fullnameText' style={{ fontWeight: 'bold' }}>
+              {item.fullName}
+            </Text>
+            <Text testID='descriptionText'>{item.description}</Text>
+            <Text
+              testID='languageText'
+              style={{
+                alignSelf: 'flex-start',
+                padding: 4,
+                borderRadius: 1,
+                backgroundColor: '#0366d6',
+                color: 'white',
+              }}
+            >
+              {item.language}
+            </Text>
+          </View>
         </View>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>
-            {kFormatter(item.stargazersCount)}
-          </Text>
-          <Text>stars</Text>
-        </View>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>
-            {kFormatter(item.ratingAverage)}
-          </Text>
-          <Text>rating</Text>
-        </View>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>
-            {kFormatter(item.reviewCount)}
-          </Text>
-          <Text>reviews</Text>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          <View style={{ alignItems: 'center' }}>
+            <Text testID='forksCountText' style={{ fontWeight: 'bold' }}>
+              {kFormatter(item.forksCount)}
+            </Text>
+            <Text>forks</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Text testID='stargazersCountText' style={{ fontWeight: 'bold' }}>
+              {kFormatter(item.stargazersCount)}
+            </Text>
+            <Text>stars</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Text testID='ratingAverageText' style={{ fontWeight: 'bold' }}>
+              {kFormatter(item.ratingAverage)}
+            </Text>
+            <Text>rating</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Text testID='reviewCountText' style={{ fontWeight: 'bold' }}>
+              {kFormatter(item.reviewCount)}
+            </Text>
+            <Text>reviews</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

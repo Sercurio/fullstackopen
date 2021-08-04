@@ -3,8 +3,16 @@ import Constants from 'expo-constants';
 import { Text, StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
-import { Route, Switch, Redirect } from 'react-router-native';
+import {
+  Route,
+  Switch,
+  Redirect,
+  useLocation,
+  useParams,
+} from 'react-router-native';
 import SignIn from './SignIn';
+import SingleRepository from './SingleRepository';
+import CreateReview from './CreateReview';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,10 +23,18 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  const location = useLocation();
+
   return (
     <View style={styles.container}>
       <AppBar />
       <Switch>
+        <Route path='/create_review'>
+          <CreateReview />
+        </Route>
+        <Route path='/repository/:id'>
+          <SingleRepository />
+        </Route>
         <Route path='/signin' exact>
           <SignIn />
         </Route>

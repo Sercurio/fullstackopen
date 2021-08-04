@@ -18,6 +18,51 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 });
 
+export const SignInContainer = ({ onSubmit }) => {
+  const initialValues = {
+    username: '',
+    password: '',
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit }) => (
+        <View style={{ backgroundColor: 'white' }}>
+          <FormikTextInput
+            testID='usernameField'
+            name='username'
+            placeholder='username'
+          />
+          <FormikTextInput
+            testID='passwordField'
+            name='password'
+            placeholder='password'
+            secureTextEntry={true}
+          />
+
+          <View
+            style={{
+              borderRadius: 3,
+              alignItems: 'center',
+              padding: 10,
+              margin: 10,
+              backgroundColor: theme.colors.primary,
+            }}
+          >
+            <Pressable testID='submitButton' onPress={handleSubmit}>
+              <Text style={{ color: 'white' }}>Sign In</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
+    </Formik>
+  );
+};
+
 const SignIn = () => {
   const history = useHistory();
   const [signIn] = useSignIn();
@@ -38,42 +83,7 @@ const SignIn = () => {
     password: '',
   };
 
-  return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-    >
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
-  );
-};
-
-const SignInForm = ({ onSubmit }) => {
-  return (
-    <View style={{ backgroundColor: 'white' }}>
-      <FormikTextInput name='username' placeholder='username' />
-      <FormikTextInput
-        name='password'
-        placeholder='password'
-        secureTextEntry={true}
-      />
-
-      <View
-        style={{
-          borderRadius: 3,
-          alignItems: 'center',
-          padding: 10,
-          margin: 10,
-          backgroundColor: theme.colors.primary,
-        }}
-      >
-        <Pressable onPress={onSubmit}>
-          <Text style={{ color: 'white' }}>Sign In</Text>
-        </Pressable>
-      </View>
-    </View>
-  );
+  return <SignInContainer onSubmit={onSubmit} />;
 };
 
 export default SignIn;

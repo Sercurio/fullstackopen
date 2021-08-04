@@ -36,6 +36,9 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal={true}>
         {renderSignTab()}
+        <Link to='/create_review'>
+          <Text style={styles.barText}>Create Review</Text>
+        </Link>
         <Link to='/'>
           <Text style={styles.barText}>Repositories</Text>
         </Link>
