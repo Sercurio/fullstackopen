@@ -1,0 +1,18 @@
+import useAuthStorage from '../hooks/useAuthStorage';
+
+import { useApolloClient, useMutation } from '@apollo/client';
+import { CREATE_USER } from '../graphql/mutations';
+
+const useSignUp = () => {
+  const [mutate, result] = useMutation(CREATE_USER);
+
+  const signUp = async ({ username, password }) => {
+    const user = { user: { username, password } };
+    const response = await mutate({ variables: user });
+    return response;
+  };
+
+  return [signUp, result];
+};
+
+export default useSignUp;

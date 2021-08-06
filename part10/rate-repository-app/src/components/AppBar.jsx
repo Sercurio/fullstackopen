@@ -17,6 +17,7 @@ const AppBar = () => {
     authStorage.removeAccessToken();
     apolloClient.resetStore();
   };
+
   const renderSignTab = () => {
     if (data && !data.authorizedUser)
       return (
@@ -32,10 +33,32 @@ const AppBar = () => {
       );
   };
 
+  const renderSignupTab = () => {
+    if (data && !data.authorizedUser)
+      return (
+        <Link to='/signup'>
+          <Text style={styles.barText}>SignUp</Text>
+        </Link>
+      );
+    else return <></>;
+  };
+
+  const renderMyReviewTab = () => {
+    if (data && data.authorizedUser)
+      return (
+        <Link to='/my_reviews'>
+          <Text style={styles.barText}>My Reviews</Text>
+        </Link>
+      );
+    else return <></>;
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal={true}>
         {renderSignTab()}
+        {renderSignupTab()}
+        {renderMyReviewTab()}
         <Link to='/create_review'>
           <Text style={styles.barText}>Create Review</Text>
         </Link>

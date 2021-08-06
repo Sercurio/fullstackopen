@@ -11,6 +11,8 @@ import {
   useParams,
 } from 'react-router-native';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
+import MyReviews from './MyReviews';
 import SingleRepository from './SingleRepository';
 import CreateReview from './CreateReview';
 
@@ -29,6 +31,12 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar />
       <Switch>
+        <Route path='/my_reviews'>
+          <MyReviews />
+        </Route>
+        <Route path='/signup'>
+          <SignUp />
+        </Route>
         <Route path='/create_review'>
           <CreateReview />
         </Route>
