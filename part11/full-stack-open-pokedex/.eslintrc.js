@@ -4,7 +4,17 @@ module.exports = {
     es6: true,
     'jest/globals': true,
     node: true,
-    'cypress/globals': true,
+  },
+  globals: {
+    cy: false,
+    Cypress: false,
+    describe: false,
+    context: false,
+    beforeEach: false,
+    afterEach: false,
+    it: false,
+    assert: false,
+    expect: false,
   },
   extends: ['eslint:recommended', 'plugin:react/recommended'],
   parserOptions: {
