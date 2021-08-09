@@ -11,16 +11,6 @@ jobs:
     steps:
       - name: Say hello
         run: |
-          echo "Hello World!"
-  what_date_job:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Now it is
-        run: |
-          date
-  show_current_directory_job:
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Directory content
-        run: |
-          ls -l
+          echo "Hello World!";
+          date;
+          ls -l;
