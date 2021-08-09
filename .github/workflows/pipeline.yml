@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+
       - name: npm install
         working-directory: ./part11/full-stack-open-pokedex
         run: npm install
@@ -27,8 +28,8 @@ jobs:
         run: npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2
-          with:
-            working-directory: ./part11/full-stack-open-pokedex
-            command: npm run test:e2e
-            start: npm run start-prod
-            wait-on: http://localhost:5000
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
+          project: ./part11/full-stack-open-pokedex
