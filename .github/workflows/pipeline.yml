@@ -29,11 +29,18 @@ jobs:
 
       - name: test
         run: npm run test
-        
-      - name: temp
-        run: pwd
-
-      - name: e2e tests
+          
+      - name: Install dependencies
         uses: cypress-io/github-action@v2
         with:
+          # just perform install
+          runTests: false
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          # we have already installed all dependencies above
+          install: false
+          working-directory: ./part11/full-stack-open-pokedex
           command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:5000
