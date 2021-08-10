@@ -34,6 +34,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           project: ./part11/full-stack-open-pokedex
-          command: npm run test:e2e
+          command: pwd
           start: npm run start-prod
           wait-on: http://localhost:5000
