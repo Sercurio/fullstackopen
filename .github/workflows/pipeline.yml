@@ -1,4 +1,4 @@
-pname: Deployment pipeline
+name: Deployment pipeline
 
 defaults:
   run:
