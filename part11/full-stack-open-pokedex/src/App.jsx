@@ -28,7 +28,7 @@ const App = () => {
 
   return (
     <>
-      <h1>TestCI1</h1>
+      <h1>TestCI</h1>
       <Router>
         <Switch>
           <Route exact path='/'>
