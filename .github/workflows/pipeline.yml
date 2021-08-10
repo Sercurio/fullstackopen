@@ -55,3 +55,5 @@ jobs:
           heroku_app_name: 'pokedex-louis'
           heroku_email: 'penalva.louis@gmail.com'
           procfile: 'web: npm run start-prod'
+          healthcheck: 'https://pokedex-louis.herokuapp.com//health'
+          checkstring: 'ok'
