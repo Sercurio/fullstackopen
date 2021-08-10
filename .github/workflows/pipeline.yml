@@ -13,10 +13,6 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  #tests_for_commits_messages:
-   # runs-on: ubuntu-18.04
-    #  steps:
-        
   simple_deployment_pipeline:
     runs-on: ubuntu-18.04
     steps:
@@ -54,23 +50,21 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
 
-      - uses: actions/checkout@v2
-        - name: gihub context
-          env:
-            GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: echo "$GITHUB_CONTEXT"
-        - name: commits
-          env:
-            COMMITS: ${{ toJson(github.event.commits) }}
-          run: echo "$COMMITS"
-        - name: commit messages
-          env:
-            COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-          run: echo "$COMMIT_MESSAGES"
+      - name: gihub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: commits
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: echo "$COMMITS"
+      - name: commit messages
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        run: echo "$COMMIT_MESSAGES"
 
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
-
         uses: anothrNick/github-tag-action@1.33.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
