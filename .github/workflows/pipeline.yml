@@ -51,6 +51,7 @@ jobs:
           wait-on: http://localhost:5000
 
       - name: Push to Heroku
+        if: ${{ github.event_name == 'push' }}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           appdir: ./part11/full-stack-open-pokedex
