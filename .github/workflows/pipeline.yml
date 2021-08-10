@@ -55,5 +55,5 @@ jobs:
         with:
           appdir: ./part11/full-stack-open-pokedex
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: 'pokedex-app-fullstackopen'
+          heroku_app_name: 'pokedex-louis'
           heroku_email: 'penalva.louis@gmail.com'
