@@ -29,11 +29,11 @@ jobs:
 
       - name: test
         run: npm run test
+        
+      - name: test
+        run: test:e2e
 
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
-          spec: ./cypress/integration/pokedex_app.js
-          command: pwd
-          start: npm run start-prod
-          wait-on: http://localhost:5000
+          command: test:e2e
