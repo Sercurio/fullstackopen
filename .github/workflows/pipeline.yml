@@ -31,12 +31,12 @@ jobs:
         run: npm run test
           
       - name: Install dependencies
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v1
         with:
           # just perform install
           runTests: false
       - name: Run e2e tests
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v1
         with:
           # we have already installed all dependencies above
           install: false
