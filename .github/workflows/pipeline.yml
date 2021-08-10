@@ -31,13 +31,13 @@ jobs:
         run: npm run test
           
       - name: Install dependencies
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           # just perform install
           working-directory: ./part11/full-stack-open-pokedex
           runTests: false
       - name: Run e2e tests
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           working-directory: ./part11/full-stack-open-pokedex
            # we have already installed all dependencies above
