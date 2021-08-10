@@ -34,13 +34,14 @@ jobs:
         uses: cypress-io/github-action@v1
         with:
           # just perform install
+          working-directory: ./part11/full-stack-open-pokedex
           runTests: false
       - name: Run e2e tests
         uses: cypress-io/github-action@v1
         with:
-          # we have already installed all dependencies above
-          install: false
           working-directory: ./part11/full-stack-open-pokedex
+           # we have already installed all dependencies above
+          install: false
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
