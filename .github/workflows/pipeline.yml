@@ -66,6 +66,7 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
 
       # Maybe create a job for bumping, temp fix is to chekout again
+
       - uses: actions/checkout@v2
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
