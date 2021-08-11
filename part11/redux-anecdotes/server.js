@@ -10,7 +10,8 @@ server.get('/health', (req, res) => {
 server.use(middlewares)
 server.use(router)
 
-server.listen(3001, () => {
+const PORT = process.env.PORT | 3001
+server.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log('JSON Server is running')
 })
