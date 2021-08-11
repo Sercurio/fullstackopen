@@ -65,16 +65,13 @@ jobs:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
 
-      # Maybe create a job for bumping, temp fix is to chekout again
-
-      - uses: actions/checkout@v2
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
         uses: anothrNick/github-tag-action@1.33.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: -patch
 
       - name: Push to Heroku
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
