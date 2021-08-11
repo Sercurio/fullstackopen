@@ -13,5 +13,5 @@ server.use(router)
 const PORT = process.env.PORT | 3001
 server.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('JSON Server is running')
+  console.log(`JSON Server is running a ${PORT}`)
 })
