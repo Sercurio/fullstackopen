@@ -1,8 +1,8 @@
-name: Deployment pipeline for pokedex
+name: Deployment pipeline for redux-anecdotes
 
 defaults:
   run:
-    working-directory: ./part11/full-stack-open-pokedex
+    working-directory: ./part11/redux-anecdotes
 
 on:
   push:
@@ -30,25 +30,13 @@ jobs:
       - name: build
         run: npm run build
 
-      - name: test
-        run: npm run test
-
-      # - name: Install dependencies
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     # just perform install
-      #     working-directory: ./part11/full-stack-open-pokedex
-      #     runTests: false
       - name: Run e2e tests
         uses: cypress-io/github-action@v2
         with:
-          working-directory:
-            ./part11/full-stack-open-pokedex
-            # we have already installed all dependencies above
-          #install: false
+          working-directory: ./part11/redux-anecdotes
           command: npm run test:e2e
           start: npm run start-prod
-          wait-on: http://localhost:5000
+          wait-on: http://localhost:3001
 
       - uses: actions/checkout@v2
       - name: Bump version and push tag
@@ -63,12 +51,12 @@ jobs:
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          appdir: ./part11/full-stack-open-pokedex
+          appdir: ./part11/redux-anecdotes
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: 'pokedex-louis'
+          heroku_app_name: 'redux-anecdotes-louis'
           heroku_email: 'penalva.louis@gmail.com'
           procfile: 'web: npm run start-prod'
-          healthcheck: 'https://pokedex-louis.herokuapp.com/health'
+          healthcheck: 'https://redux-anecdotes-louis.herokuapp.com/health'
           checkstring: 'ok'
           rollbackonhealthcheckfailed: true
 

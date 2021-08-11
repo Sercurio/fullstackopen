@@ -1,4 +1,4 @@
-name: Debug context
+name: Debug context for pokedex
 
 defaults:
   run:
