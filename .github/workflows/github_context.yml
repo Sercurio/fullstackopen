@@ -1,0 +1,29 @@
+name: Debug context
+
+defaults:
+  run:
+    working-directory: ./part11/full-stack-open-pokedex
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  debug_context:
+    runs-on: ubuntu-18.04
+
+- name: gihub context
+  env:
+    GITHUB_CONTEXT: ${{ toJson(github) }}
+  run: echo "$GITHUB_CONTEXT"
+
+- name: commits
+  env:
+    COMMITS: ${{ toJson(github.event.commits) }}
+  run: echo "$COMMITS"
+
+- name: commit messages
+  env:
+    COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+  run: echo "$COMMIT_MESSAGES"
