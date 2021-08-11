@@ -12,18 +12,18 @@ on:
 jobs:
   debug_context:
     runs-on: ubuntu-18.04
+    steps:
+      - name: gihub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
-- name: gihub context
-  env:
-    GITHUB_CONTEXT: ${{ toJson(github) }}
-  run: echo "$GITHUB_CONTEXT"
+      - name: commits
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: echo "$COMMITS"
 
-- name: commits
-  env:
-    COMMITS: ${{ toJson(github.event.commits) }}
-  run: echo "$COMMITS"
-
-- name: commit messages
-  env:
-    COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-  run: echo "$COMMIT_MESSAGES"
+      - name: commit messages
+        env:
+          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
+        run: echo "$COMMIT_MESSAGES"
