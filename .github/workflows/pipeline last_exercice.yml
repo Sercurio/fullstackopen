@@ -56,9 +56,9 @@ jobs:
           heroku_app_name: 'redux-anecdotes-louis'
           heroku_email: 'penalva.louis@gmail.com'
           procfile: 'web: npm run start-prod'
-          #healthcheck: 'https://redux-anecdotes-louis.herokuapp.com/health'
-          #checkstring: 'ok'
-          #rollbackonhealthcheckfailed: true
+          healthcheck: 'https://redux-anecdotes-louis.herokuapp.com/health'
+          checkstring: 'ok'
+          rollbackonhealthcheckfailed: true
 
       - name: Slack notification success
         if: ${{ success() }}
