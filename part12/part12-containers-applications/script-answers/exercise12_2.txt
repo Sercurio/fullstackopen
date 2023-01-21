@@ -1,0 +1,8 @@
+Script started on Sat Jan 21 00:52:33 2023
+[1m[7m%[27m[1m[0m                                                                                                                                                                                           [0m[27m[24m[Jlouis@MacBook-Pro-de-louis-2 script-answers % [K[?2004hmv typescript exercise12_4.txt[30Dscript                        [24Dcat exercise12_3.txt[20Dscript              [14Dmv typescript exercise12_4.txt[30Dscript                        [24Dcat exercise12_3.txt[20Dmv typescript exercise12_3.txt[30Dca[10P[18C          [10D[20Dscript              [14Dmv typescript exercise12_4.txt[30D                              [30Dddocker run -it ubn untu bash[?2004l
+[?2004h]0;root@805c98c93939: /root@805c98c93939:/# [K]0;root@805c98c93939: /root@805c98c93939:/# mkdir /usr/src/app
+[?2004l[?2004h]0;root@805c98c93939: /root@805c98c93939:/# exit
+[?2004lexit
+[1m[7m%[27m[1m[0m                                                                                                                                                                                           [0m[27m[24m[Jlouis@MacBook-Pro-de-louis-2 script-answers % [K[?2004heexit[?2004l
+
+Script done on Sat Jan 21 00:53:15 2023
